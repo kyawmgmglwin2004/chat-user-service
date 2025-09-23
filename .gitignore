@@ -1,0 +1,7 @@
+#exclude everything in this file
+node_modules
+configurations
+debug
+log
+.vscode
+_pm2.json
