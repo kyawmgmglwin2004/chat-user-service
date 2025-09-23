@@ -8,9 +8,10 @@ const services: ServiceSchema = {
     actions: {
         async login(ctx) {
             try {
-                return await 
+                return await loginModel.loginEmail(ctx);
             } catch (error) {
-                
+                  console.log("error @users login action: ",error)
+             return StatusCode.UNKNOWN();
             }
         }
     }
