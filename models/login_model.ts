@@ -3,6 +3,8 @@ import MySQL from '../helpers/db_helper';
 import StatusCode from '../helpers/status_code_helper';
 import { Context } from 'moleculer';
 import bcrypt from 'bcrypt';
+import jwtHelper from '../helpers/jwt_token_helper';
+import config from '../configurations/config';
 
 export interface loginByEmailType {
     email: string | null;
@@ -32,8 +34,14 @@ export async function loginEmail(ctx: Context<loginByEmailType>) {
         if( !checkPassword ) {
             return StatusCode.UNAUTHENTICATED("Invalid password");
         }
+        const payload = { id: user.id, email: user.email };
+        const expiresIn = { expiresIn: '7d' };
+        const secret = config.JWT_SECRET;
 
+        const token = jwtHelper.signJWT(payload, secret, expiresIn);
+        return StatusCode.OK("LOGIN_SUCCESS",  token );
     } catch (error) {
-        
+        console.error("Login Error: ", error);
+        return StatusCode.INVALID_ARGUMENT("Internal server error");
     }
 }
