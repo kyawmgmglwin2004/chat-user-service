@@ -21,6 +21,16 @@ export interface register {
     phone: string | null;
     userName: string | null;
 }
+interface profile {
+    email: string | null;
+}
+interface editProfile {
+    email: string | null;
+    phone: string | null;
+    image: string | null;
+    userName: string | null;
+    bio: string | null;
+}
 
 export async function loginEmail(ctx: Context<loginByEmailType>) {
     try {
@@ -84,5 +94,66 @@ export async function register(ctx: Context<register>) {
     } catch (error) {
         console.error("Register Error: ", error);
         return StatusCode.UNKNOWN("Internal server error");
+    }
+}
+
+export async function profile(ctx :Context<profile> ) {
+    try {
+        const email = ctx.params;
+
+        if(!email){
+            return StatusCode.INVALID_ARGUMENT("need eamil")
+        }
+        let sql = `SELECT * FROM users WHERE email = ?`;
+        const [rows] = await MySQL.query<RowDataPacket[]> (sql, [email]);
+        if(rows.length === 0 )  {
+            return StatusCode.NOT_FOUND("This email don't have account");
+        }
+        return StatusCode.OK(rows[0]);
+    } catch (error) {
+        console.error("Profile Error: ", error);
+        return StatusCode.UNKNOWN("Internal server error");
+    }
+}
+
+export async function editProfile(ctx :Context<editProfile>) {
+    try {
+        const { email, phone, userName, image, bio } = ctx.params;
+         if(!email){
+            return StatusCode.INVALID_ARGUMENT("need eamil")
+        }
+        let field = [];
+        let value = [];
+
+         if (phone !== undefined) {
+            field.push("phone = ?");
+            value.push(phone);
+         }
+        if (userName !== undefined) {
+            field.push("userName = ?");
+            value.push(userName);
+        }
+        if (image !== undefined) {
+            field.push("image = ?");
+            value.push(image);
+        }
+        if (bio !== undefined) {
+            field.push("bio = ?");
+            value.push(bio);
+        }
+        if (field.length === 0) {
+            return StatusCode.INVALID_ARGUMENT("No fields provided for update");
+        }
+        const sql = `UPDATE users SET ${field.join(", ")} WHERE email = ?`;
+        value.push(email);
+
+    const [data]: any = await MySQL.query(sql, value);
+
+    if (data.affectedRows === 1) {
+      return StatusCode.OK("Update successfully"); 
+    }
+    } catch (error : any) {
+         console.log("Err @  update profile:", error.message);
+    return StatusCode.UNKNOWN();
     }
 }

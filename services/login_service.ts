@@ -15,42 +15,60 @@ interface LoginResult {
 const services: ServiceSchema = {
     name: "auth.login",
     actions: {
-        async login(ctx) {
-            try {
-               try {
-                    let result: LoginResult | null =  await loginModel.loginEmail(ctx);
+        // async login(ctx) {
+        //     try {
+        //        try {
+        //             let result: LoginResult | null =  await loginModel.loginEmail(ctx);
 
-                    if (result) {
-                        ctx.meta.$responseHeaders = {
-                            "Set-Cookie": [
-                                `accessToken=${result.accesssToken};
-                                HttpOnly;
-                                Secure;
-                                SameSite = Strict;
-                                Path=/; 
-                                Max-Age=900`,
-                                `refreshToken=${result.refreshToken}; 
-                                HttpOnly; 
-                                Secure; 
-                                SameSite=Strict; 
-                                Path=/; 
-                                Max-Age=${60*60*24*7}`
-                            ]
-                        }
-                    }
-               } catch (error) {
+        //             if (result) {
+        //                 ctx.meta.$responseHeaders = {
+        //                     "Set-Cookie": [
+        //                         `accessToken=${result.accesssToken};
+        //                         HttpOnly;
+        //                         Secure;
+        //                         SameSite = Strict;
+        //                         Path=/; 
+        //                         Max-Age=900`,
+        //                         `refreshToken=${result.refreshToken}; 
+        //                         HttpOnly; 
+        //                         Secure; 
+        //                         SameSite=Strict; 
+        //                         Path=/; 
+        //                         Max-Age=${60*60*24*7}`
+        //                     ]
+        //                 }
+        //             }
+        //        } catch (error) {
                 
-               }
-            } catch (error) {
-                  console.log("error @users login action: ",error)
-             return StatusCode.UNKNOWN("SERVER ERROR");
-            }
-        },
+        //        }
+        //     } catch (error) {
+        //           console.log("error @users login action: ",error)
+        //      return StatusCode.UNKNOWN("SERVER ERROR");
+        //     }
+        // },
         async register(ctx) {
             try {
                 return await loginModel.register(ctx);
             } catch (error) {
                 console.log("error @users register action: ",error)
+                return StatusCode.UNKNOWN("SERVER ERROR");
+            }
+        },
+
+        async profile(ctx) {
+            try {
+                return await loginModel.profile(ctx);
+            } catch (error) {
+                 console.log("error @users profile action: ",error)
+                return StatusCode.UNKNOWN("SERVER ERROR");
+            }
+        },
+
+        async editProfile(ctx) {
+            try {
+                return await loginModel.editProfile(ctx);
+            } catch (error) {
+                console.log("error @users edit profile action: ",error)
                 return StatusCode.UNKNOWN("SERVER ERROR");
             }
         }
