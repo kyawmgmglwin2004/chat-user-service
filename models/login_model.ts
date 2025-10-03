@@ -116,6 +116,7 @@ export async function profile(ctx :Context<profile> ) {
     }
 }
 
+
 export async function editProfile(ctx :Context<editProfile>) {
     try {
         const { email, phone, userName, image, bio } = ctx.params;
