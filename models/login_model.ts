@@ -111,7 +111,7 @@ export async function profile(ctx :Context<profile> ) {
         }
         return StatusCode.OK(rows[0]);
     } catch (error) {
-        // console.error("Profile Error: ", error);
+        console.error("Profile Error: ", error);
         return StatusCode.UNKNOWN("Internal server error");
     }
 }
