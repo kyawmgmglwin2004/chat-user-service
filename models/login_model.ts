@@ -126,3 +126,45 @@ export async function register(ctx: Context<register>) {
     }
 }
 
+
+export async function editProfile(ctx :Context<editProfile>) {
+    try {
+        const { email, phone, userName, image, bio } = ctx.params;
+         if(!email){
+            return StatusCode.INVALID_ARGUMENT("need eamil")
+        }
+        let field = [];
+        let value = [];
+
+         if (phone !== undefined) {
+            field.push("phone = ?");
+            value.push(phone);
+         }
+        if (userName !== undefined) {
+            field.push("userName = ?");
+            value.push(userName);
+        }
+        if (image !== undefined) {
+            field.push("image = ?");
+            value.push(image);
+        }
+        if (bio !== undefined) {
+            field.push("bio = ?");
+            value.push(bio);
+        }
+        if (field.length === 0) {
+            return StatusCode.INVALID_ARGUMENT("No fields provided for update");
+        }
+        const sql = `UPDATE users SET ${field.join(", ")} WHERE email = ?`;
+        value.push(email);
+
+    const [data]: any = await MySQL.query(sql, value);
+
+    if (data.affectedRows === 1) {
+      return StatusCode.OK("Update successfully"); 
+    }
+    } catch (error : any) {
+        //  console.log("Err @  update profile:", error.message);
+    return StatusCode.UNKNOWN();
+    }
+}
