@@ -1,7 +1,7 @@
 import { ServiceBroker } from "moleculer";
 
 let theBroker = new ServiceBroker({
-    namespace: "chat-app",
+    namespace: "chat-service",
     nodeID : "chat-app-node-1",
     logLevel: "info",
     transporter: {
