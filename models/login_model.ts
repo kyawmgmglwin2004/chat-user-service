@@ -154,7 +154,7 @@ export async function editProfile(ctx :Context<editProfile>) {
       return StatusCode.OK("Update successfully"); 
     }
     } catch (error : any) {
-         console.log("Err @  update profile:", error.message);
+        //  console.log("Err @  update profile:", error.message);
     return StatusCode.UNKNOWN();
     }
 }
