@@ -1,4 +1,6 @@
 import { ServiceBroker } from "moleculer";
+import config from "../configurations/config";
+console.log("port: ", config.REDIS_PORT)
 
 let theBroker = new ServiceBroker({
     namespace: "chat-service",
@@ -7,10 +9,14 @@ let theBroker = new ServiceBroker({
     transporter: {
         type: "Redis",
         options: {
-            host: "localhost",
-            port: 6379,
-        },
+      host: config.REDIS_HOST,
+      port: config.REDIS_PORT,
+      password: config.REDIS_PASSWORD,
+      db: 0,
+      tls: {},
     },
+  },
+
 
     cacher: "Redis",
     logger: true,
