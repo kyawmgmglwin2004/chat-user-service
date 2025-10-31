@@ -13,15 +13,15 @@ broker.start().then(async () => {
 
   // });
   // console.log("list: ", JSON.stringify(login));
-  const login = await broker.call("auth.login.login", {
+  // const login = await broker.call("auth.login.login", {
       
-      email : "kyawmgmglwin3@gmail.com",
-      password : "password",
-      userName: "KyawGyi",
-      phone: "09796582824"
+  //     email : "kyawmgmglwin3@gmail.com",
+  //     password : "password",
+  //     userName: "KyawGyi",
+  //     phone: "09796582824"
 
-  });
-  console.log("register: ", JSON.stringify(login));
+  // });
+  // console.log("register: ", JSON.stringify(login));
 
 
 });
