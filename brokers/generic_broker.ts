@@ -3,7 +3,7 @@ import config from "../configurations/config";
 console.log("port: ", config.REDIS_PORT)
 
 let theBroker = new ServiceBroker({
-    namespace: "chat-app",
+    namespace: "chat-service",
     nodeID : "chat-app-node-1",
     logLevel: "info",
     transporter: {

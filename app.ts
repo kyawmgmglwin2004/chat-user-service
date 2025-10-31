@@ -18,7 +18,7 @@ broker.start().then(async () => {
   //     email : "kyawmgmglwin3@gmail.com",
   //     password : "password",
   //     userName: "KyawGyi",
-  //     phone: "09796582824"
+  //     phone: "09796582826
 
   // });
   // console.log("register: ", JSON.stringify(login));
