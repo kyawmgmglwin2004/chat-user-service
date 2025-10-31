@@ -13,6 +13,10 @@ interface UserRow extends RowDataPacket {
     id:number;
     email: string;
     password: string;
+    userName: string;
+    phone: string;
+    bio: string;
+    image:string;
 };
 export interface register {
     email: string | null;
@@ -29,6 +33,13 @@ export interface LoginResult {
         userName: string;
     };
 }
+export interface editProfile {
+    email: string;
+    phone: string;
+    userName: string;
+    image: string;
+    bio: string;
+}
 
 export async function loginEmail(ctx: Context<loginByEmailType>) {
     try {
@@ -36,14 +47,17 @@ export async function loginEmail(ctx: Context<loginByEmailType>) {
         if (!email || !password || typeof password !== "string" || password.length < 6) {
             return null;
         }
+        console.log("email :", email, password)
 
         let sql = "SELECT * FROM users WHERE email = ?";
         const [rows] = await MySQL.query<UserRow[]>(sql, [email]);
+        console.log("user: ", rows[0])
         if (!rows || rows.length == 0) {
             return null;
         }
 
         const user = rows[0];
+        
         const checkPassword = await bcrypt.compare(password, user.password);
         if (!checkPassword) {
             return null;

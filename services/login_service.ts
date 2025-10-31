@@ -1,6 +1,7 @@
 import { ServiceSchema } from "moleculer";
 import StatusCode from "../helpers/status_code_helper";
 import * as loginModel from "../models/login_model";
+import jwtHelper from "../helpers/jwt_token_helper";
 
 interface LoginResult {
   accessToken: string;
@@ -13,12 +14,12 @@ interface LoginResult {
 }
 
 const services: ServiceSchema = {
-  name: "user.auth",
+  name: "chat.auth",
   actions: {
     async login(ctx: any) {
       try {
         let result = await loginModel.loginEmail(ctx);
-
+        console.log("result :", result)
         if (result) {
           ctx.meta.$responseHeaders = {
             "Set-Cookie": [

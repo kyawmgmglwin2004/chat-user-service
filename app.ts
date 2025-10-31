@@ -6,10 +6,11 @@ broker.createService(loginService);
 broker.start().then(async () => {
   console.log("started success");
 
-  // const login = await broker.call("auth.login.login", {
+  // const login = await broker.call("chat.auth.login", {
       
-  //     email : "kyawmgmglwin146018@gmail.com",
-  //     password : "password"
+  //     email : "kyawmgmglwin3@gmail.com",
+  //     password : "password",
+  //     phone: "09796582826"
 
   // });
   // console.log("list: ", JSON.stringify(login));
